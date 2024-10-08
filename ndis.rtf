@@ -1,0 +1,339 @@
+{\rtf1\ansi\ansicpg1252\cocoartf2761
+\cocoatextscaling0\cocoaplatform0{\fonttbl\f0\fswiss\fcharset0 Helvetica-Oblique;\f1\fswiss\fcharset0 Helvetica;\f2\fswiss\fcharset0 Helvetica-Bold;
+}
+{\colortbl;\red255\green255\blue255;\red0\green0\blue0;\red255\green255\blue255;}
+{\*\expandedcolortbl;;\csgenericrgb\c0\c0\c0;\csgray\c100000;}
+{\*\listtable{\list\listtemplateid1\listhybrid{\listlevel\levelnfc23\levelnfcn23\leveljc0\leveljcn0\levelfollow0\levelstartat1\levelspace360\levelindent0{\*\levelmarker \{disc\}}{\leveltext\leveltemplateid1\'01\uc0\u8226 ;}{\levelnumbers;}\fi-360\li720\lin720 }{\listname ;}\listid1}
+{\list\listtemplateid2\listhybrid{\listlevel\levelnfc23\levelnfcn23\leveljc0\leveljcn0\levelfollow0\levelstartat1\levelspace360\levelindent0{\*\levelmarker \{disc\}}{\leveltext\leveltemplateid101\'01\uc0\u8226 ;}{\levelnumbers;}\fi-360\li720\lin720 }{\listname ;}\listid2}
+{\list\listtemplateid3\listhybrid{\listlevel\levelnfc23\levelnfcn23\leveljc0\leveljcn0\levelfollow0\levelstartat1\levelspace360\levelindent0{\*\levelmarker \{disc\}}{\leveltext\leveltemplateid201\'01\uc0\u8226 ;}{\levelnumbers;}\fi-360\li720\lin720 }{\listname ;}\listid3}
+{\list\listtemplateid4\listhybrid{\listlevel\levelnfc23\levelnfcn23\leveljc0\leveljcn0\levelfollow0\levelstartat1\levelspace360\levelindent0{\*\levelmarker \{disc\}}{\leveltext\leveltemplateid301\'01\uc0\u8226 ;}{\levelnumbers;}\fi-360\li720\lin720 }{\listname ;}\listid4}
+{\list\listtemplateid5\listhybrid{\listlevel\levelnfc23\levelnfcn23\leveljc0\leveljcn0\levelfollow0\levelstartat1\levelspace360\levelindent0{\*\levelmarker \{disc\}}{\leveltext\leveltemplateid401\'01\uc0\u8226 ;}{\levelnumbers;}\fi-360\li720\lin720 }{\listname ;}\listid5}
+{\list\listtemplateid6\listhybrid{\listlevel\levelnfc23\levelnfcn23\leveljc0\leveljcn0\levelfollow0\levelstartat1\levelspace360\levelindent0{\*\levelmarker \{disc\}}{\leveltext\leveltemplateid501\'01\uc0\u8226 ;}{\levelnumbers;}\fi-360\li720\lin720 }{\listname ;}\listid6}
+{\list\listtemplateid7\listhybrid{\listlevel\levelnfc23\levelnfcn23\leveljc0\leveljcn0\levelfollow0\levelstartat1\levelspace360\levelindent0{\*\levelmarker \{disc\}}{\leveltext\leveltemplateid601\'01\uc0\u8226 ;}{\levelnumbers;}\fi-360\li720\lin720 }{\listname ;}\listid7}
+{\list\listtemplateid8\listhybrid{\listlevel\levelnfc23\levelnfcn23\leveljc0\leveljcn0\levelfollow0\levelstartat1\levelspace360\levelindent0{\*\levelmarker \{disc\}}{\leveltext\leveltemplateid701\'01\uc0\u8226 ;}{\levelnumbers;}\fi-360\li720\lin720 }{\listname ;}\listid8}
+{\list\listtemplateid9\listhybrid{\listlevel\levelnfc23\levelnfcn23\leveljc0\leveljcn0\levelfollow0\levelstartat1\levelspace360\levelindent0{\*\levelmarker \{disc\}}{\leveltext\leveltemplateid801\'01\uc0\u8226 ;}{\levelnumbers;}\fi-360\li720\lin720 }{\listname ;}\listid9}}
+{\*\listoverridetable{\listoverride\listid1\listoverridecount0\ls1}{\listoverride\listid2\listoverridecount0\ls2}{\listoverride\listid3\listoverridecount0\ls3}{\listoverride\listid4\listoverridecount0\ls4}{\listoverride\listid5\listoverridecount0\ls5}{\listoverride\listid6\listoverridecount0\ls6}{\listoverride\listid7\listoverridecount0\ls7}{\listoverride\listid8\listoverridecount0\ls8}{\listoverride\listid9\listoverridecount0\ls9}}
+\paperw11900\paperh16840\margl1440\margr1440\vieww11520\viewh8400\viewkind0
+\deftab720
+\pard\pardeftab720\partightenfactor0
+
+\f0\i\fs24 \cf2 from scapy.all import sniff, TCP, IP\
+from datetime import date\
+\
+def detecter_scan_syn(packet):\
+    """\
+    D\'e9tecte les scans SYN dans les paquets r\'e9seau.\
+\
+    Cette fonction est utilis\'e9e comme fonction de rappel pour la capture de paquets.\
+    Elle v\'e9rifie si le paquet contient une couche IP et une couche TCP avec le drapeau SYN activ\'e9.\
+    Si un tel paquet est d\'e9tect\'e9, l'adresse IP source est affich\'e9e.\
+\
+    :param packet: Le paquet r\'e9seau captur\'e9.\
+    :type packet: scapy.packet.Packet\
+    """\
+    if IP in packet and TCP in packet and packet[TCP].flags == 'S':\
+        src_ip = packet[IP].src\
+        print(f"Scan SYN d\'e9tect\'e9 de \{src_ip\}")\
+        info = \{\
+            'ipSource': packet[IP].src,\
+            'ipDest': packet[IP].dst,\
+            'portSource': packet[IP].sport,\
+            'portDest': packet[IP].dport,\
+            'horodatage': date.today(),\
+            'activite': 'Scan SYN',\
+            'description': f'Tentative de SCAN SYN d\'e9tect\'e9e sur le service \'e0 destination de \{packet[IP].src\}'\
+        \}\
+        return info\
+\
+\
+sniff(filter="tcp", prn=detecter_scan_syn)
+\f1\i0 \
+\
+\
+\
+\
+\
+info = \{\
+    'ipSource': packet[IP].src,\
+    'ipDest': packet[IP].dst,\
+    'portSource': packet[IP].sport,\
+    'portDest': packet[IP].dport,\
+    'horodatage': date.today(),\
+    'activite': 'Scan SYN',\
+    'description': f'Tentative de SCAN SYN d\'e9tect\'e9e sur le service \'e0 destination de \{packet[IP].src\}'\
+\}\
+return info\
+\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardeftab720\pardirnatural\partightenfactor0
+
+\f2\b \cf0 \
+
+\f1\b0 \cf2 \
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardeftab720\pardirnatural\partightenfactor0
+
+\f0\i \cf2 from scapy.all import sniff, IP, TCP\
+from collections import Counter\
+from time import time\
+\
+# Dictionnaire pour compter le nombre de tentatives de connexion par IP source et par port\
+tentatives_connexion = Counter()\
+\
+# Liste des ports \'e0 surveiller\
+ports_surveilles = [443, 22, 21, 20, 23, 25, 110, 53, 67, 68]\
+\
+def compter_tentatives(packet):\
+    """\
+    Compte les tentatives de connexion pour chaque adresse IP source et port de destination surveill\'e9.\
+\
+    Cette fonction est utilis\'e9e comme fonction de rappel pour la capture de paquets. \
+    Elle v\'e9rifie si le paquet contient une couche IP et une couche TCP, puis \
+    incr\'e9mente un compteur pour chaque combinaison d'adresse IP source et de port de destination surveill\'e9.\
+\
+    :param packet: Le paquet r\'e9seau captur\'e9.\
+    :type packet: scapy.packet.Packet\
+    :return: Un dictionnaire contenant les informations de l'alerte DDOS si d\'e9tect\'e9e, sinon None.\
+    :rtype: dict or None\
+    """\
+    if IP in packet and TCP in packet:\
+        src_ip = packet[IP].src\
+        dst_port = packet[TCP].dport\
+        if dst_port in ports_surveilles:\
+            # Incr\'e9menter le compteur pour chaque tentative\
+            tentatives_connexion[(src_ip, dst_port)] += 1\
+            # D\'e9tecter si le seuil de tentatives est d\'e9pass\'e9\
+            if tentatives_connexion[(src_ip, dst_port)] >= 10:\
+                return create_ddos_alert(src_ip, packet[IP].dst, dst_port)\
+\
+def create_ddos_alert(src_ip, dst_ip, dst_port):\
+    """\
+    Cr\'e9e un dictionnaire contenant les informations d'alerte DDOS.\
+\
+    :param src_ip: Adresse IP source de l'attaque.\
+    :type src_ip: str\
+    :param dst_ip: Adresse IP de destination.\
+    :type dst_ip: str\
+    :param dst_port: Port de destination de l'attaque.\
+    :type dst_port: int\
+    :return: Un dictionnaire contenant les informations de l'alerte DDOS.\
+    :rtype: dict\
+    """\
+    alert_time = time()\
+    alert_info = \{\
+        'ipSource': src_ip,\
+        'ipDest': dst_ip,\
+        'portSource': "source nombreuse",\
+        'portDest': dst_port,\
+        'horodatage': alert_time,\
+        'activite': 'Attaque DDOS',\
+        'description': f'Tentative de DDOS d\'e9tect\'e9e sur le service \'e0 destination de \{dst_ip\}'\
+    \}\
+    return alert_info
+\f1\i0 \
+\
+\
+\pard\pardeftab720\partightenfactor0
+\cf2 \
+\pard\tx220\tx720\pardeftab720\li720\fi-720\partightenfactor0
+\ls1\ilvl0\cf2 \
+\pard\pardeftab720\partightenfactor0
+\cf2 \
+from scapy.all import sniff, IP, TCP\
+from collections import Counter\
+from time import time\
+\
+- `from scapy.all import sniff, IP, TCP` : Importe les fonctions et classes n\'e9cessaires de Scapy pour la capture et l'analyse des paquets.\
+- `from collections import Counter` : Importe la classe `Counter` qui permet de compter facilement les occurrences d'\'e9l\'e9ments.\
+- `from time import time` : Importe la fonction `time` pour enregistrer le moment o\'f9 une alerte DDOS est g\'e9n\'e9r\'e9e.\
+\
+\pard\tx220\tx720\pardeftab720\li720\fi-720\partightenfactor0
+\ls2\ilvl0\cf2 {\listtext	\uc0\u8226 	} Variables Globales\
+\pard\pardeftab720\partightenfactor0
+\cf2 \
+tentatives_connexion = Counter()\
+ports_surveilles = [443, 22, 21, 20, 23, 25, 110, 53, 67, 68]\
+\
+- `tentatives_connexion` : Un compteur pour enregistrer le nombre de tentatives de connexion par adresse IP source et par port de destination.\
+- `ports_surveilles` : Liste des ports fr\'e9quemment cibl\'e9s lors d'attaques et donc \'e0 surveiller.\
+\
+\pard\tx220\tx720\pardeftab720\li720\fi-720\partightenfactor0
+\ls3\ilvl0\cf2 {\listtext	\uc0\u8226 	}Fonction `compter_tentatives`\
+\pard\pardeftab720\partightenfactor0
+\cf2 \
+def compter_tentatives(packet):\
+    ...\
+\
+\
+\pard\tx220\tx720\pardeftab720\li720\fi-720\partightenfactor0
+\ls4\ilvl0\cf2 \
+\pard\pardeftab720\partightenfactor0
+\cf2 \
+if IP in packet and TCP in packet:\
+    src_ip = packet[IP].src\
+    dst_port = packet[TCP].dport\
+    if dst_port in ports_surveilles:\
+        tentatives_connexion[(src_ip, dst_port)] += 1\
+\
+\pard\tx220\tx720\pardeftab720\li720\fi-720\partightenfactor0
+\ls5\ilvl0\cf2 \
+\pard\pardeftab720\partightenfactor0
+\cf2 \
+if tentatives_connexion[(src_ip, dst_port)] >= 10:\
+    return create_ddos_alert(src_ip, packet[IP].dst, dst_port)\
+\
+\
+\
+\
+\
+\
+sniff(filter="tcp", prn=compter_tentatives)\
+\
+- `filter="tcp"` : Filtre pour capturer uniquement les paquets TCP.\
+- `prn=compter_tentatives` : D\'e9finit `compter_tentatives` comme la fonction de callback \'e0 ex\'e9cuter pour chaque paquet captur\'e9.\
+\
+\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardeftab720\pardirnatural\partightenfactor0
+\cf2 \
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardeftab720\pardirnatural\partightenfactor0
+
+\f0\i \cf2 from scapy.all import sniff, IP, TCP\
+from collections import defaultdict\
+import time\
+\
+# Dictionnaire pour stocker les tentatives de connexion par adresse IP\
+nbrConnection = defaultdict(list)\
+# Limite de tentatives pour consid\'e9rer une attaque par force brute\
+limite = 10\
+# Fen\'eatre de temps en secondes pour analyser les tentatives de connexion\
+time_window = 60\
+\
+# Liste des ports \'e0 surveiller\
+ports_surveilles = [80, 8080]\
+\
+def detect_bruteforce(packet):\
+    """\
+    D\'e9tecte les tentatives d'attaques par force brute sur le r\'e9seau.\
+\
+    :param packet: Le paquet r\'e9seau captur\'e9 par Scapy.\
+    :type packet: scapy.packet.Packet\
+    :return: Un dictionnaire contenant les informations de l'attaque si d\'e9tect\'e9e, sinon None.\
+    :rtype: dict or None\
+    """\
+    if IP in packet and TCP in packet:\
+        ipSource = packet[IP].src\
+        ipDest = packet[IP].dst\
+        portSource = packet[TCP].sport\
+        portDest = packet[TCP].dport\
+        date = time.time()\
+        \
+        # Enregistrer la tentative de connexion\
+        nbrConnection[ipSource].append(date)\
+        \
+        # Nettoyer les tentatives plus anciennes que la fen\'eatre de temps\
+        nbrConnection[ipSource] = [t for t in nbrConnection[ipSource] if date - t <= time_window]\
+        \
+        # D\'e9tecter une attaque par force brute\
+        if len(nbrConnection[ipSource]) == limite:\
+            timestamp = time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(date))\
+            # Cr\'e9er l'alerte et r\'e9initialiser le compteur\
+            if portDest in ports_surveilles:\
+                nbrConnection[ipSource] = []  # R\'e9initialiser apr\'e8s d\'e9tection\
+                return alert_bruteforce(ipSource, ipDest, portSource, portDest, timestamp)\
+    return None\
+\
+def alert_bruteforce(ipSource, ipDest, portSource, portDest, date):\
+    """\
+    Cr\'e9e un dictionnaire contenant les informations de l'attaque par force brute d\'e9tect\'e9e.\
+\
+    :param ipSource: Adresse IP source de l'attaque.\
+    :type ipSource: str\
+    :param ipDest: Adresse IP de destination.\
+    :type ipDest: str\
+    :param portSource: Port source de l'attaque.\
+    :type portSource: int\
+    :param portDest: Port de destination de l'attaque.\
+    :type portDest: int\
+    :param date: Horodatage de la d\'e9tection.\
+    :type date: str\
+    :return: Un dictionnaire contenant les informations de l'attaque.\
+    :rtype: dict\
+    """\
+    info = \{\
+        'ipSource': ipSource,\
+        'ipDest': ipDest,\
+        'portSource': portSource,\
+        'portDest': portDest,\
+        'horodatage': date,\
+        'activite': 'BruteForce',\
+        'description': f'Tentative de force brute d\'e9tect\'e9e sur le service \'e0 destination du port \{portDest\}'\
+    \}\
+    return info\
+\
+sniff(filter="tcp", prn=detect_bruteforce)
+\f1\i0 \
+\
+\
+\
+\
+from scapy.all import sniff, IP, TCP\
+from collections import defaultdict\
+import time\
+\
+- `from scapy.all import sniff, IP, TCP` : Importe les fonctions et classes n\'e9cessaires de Scapy pour la capture et l'analyse des paquets.\
+- `from collections import defaultdict` : Importe `defaultdict` qui est une sous-classe de `dict` permettant de fournir une valeur par d\'e9faut pour les cl\'e9s manquantes.\
+- `import time` : Importe le module `time` pour manipuler les horodatages.\
+\
+\pard\tx220\tx720\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardeftab720\li720\fi-720\pardirnatural\partightenfactor0
+\ls6\ilvl0\cf2 {\listtext	\uc0\u8226 	}Variables Globales\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardeftab720\pardirnatural\partightenfactor0
+\cf2 \
+nbrConnection = defaultdict(list)\
+limite = 10\
+time_window = 60\
+ports_surveilles = [80, 8080]\
+\
+\
+- `nbrConnection` : Un dictionnaire pour enregistrer les horodatages des tentatives de connexion par adresse IP.\
+- `limite` : Le nombre de tentatives de connexion \'e0 partir d'une m\'eame adresse IP qui, si atteint dans un intervalle de temps donn\'e9, d\'e9clenche une alerte de force brute.\
+- `time_window` : La fen\'eatre de temps (en secondes) pendant laquelle les tentatives de connexion sont consid\'e9r\'e9es pour la d\'e9tection de force brute.\
+- `ports_surveilles` : Liste des ports sp\'e9cifiques \'e0 surveiller pour les tentatives de force brute.\
+\
+\pard\tx220\tx720\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardeftab720\li720\fi-720\pardirnatural\partightenfactor0
+\ls7\ilvl0\cf2 {\listtext	\uc0\u8226 	}Fonction `detect_bruteforce`\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardeftab720\pardirnatural\partightenfactor0
+\cf2 \
+def detect_bruteforce(packet):\
+    ...\
+\
+\
+\
+\
+if IP in packet and TCP in packet:\
+    ipSource = packet[IP].src\
+    ipDest = packet[IP].dst\
+    portSource = packet[TCP].sport\
+    portDest = packet[TCP].dport\
+    date = time.time()\
+\
+\
+\pard\tx220\tx720\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardeftab720\li720\fi-720\pardirnatural\partightenfactor0
+\ls8\ilvl0\cf2 \
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardeftab720\pardirnatural\partightenfactor0
+\cf2 \
+nbrConnection[ipSource].append(date)\
+nbrConnection[ipSource] = [t for t in nbrConnection[ipSource] if date - t <= time_window]\
+\
+\
+\pard\tx220\tx720\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardeftab720\li720\fi-720\pardirnatural\partightenfactor0
+\ls9\ilvl0\cf2 \
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardeftab720\pardirnatural\partightenfactor0
+\cf2 \
+if len(nbrConnection[ipSource]) == limite:\
+    timestamp = time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(date))\
+    if portDest in ports_surveilles:\
+        nbrConnection[ipSource] = []  # R\'e9initialiser apr\'e8s d\'e9tection\
+        return alert_bruteforce(ipSource, ipDest, portSource, portDest, timestamp)\
+\
+\
+\pard\pardeftab720\partightenfactor0
+\cf2 \cb3 \
+}
